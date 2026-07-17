@@ -144,15 +144,14 @@ h1 em{font-style:normal;color:var(--hot)}
 .seg-glow{position:absolute;inset:0;opacity:0;transition:opacity .8s ease .5s;pointer-events:none}
 .seg.lit .seg-glow{opacity:1}
 
-.threshold{
-  position:relative;height:0;margin:-40px 0 0;pointer-events:none;
-}
 .threshold-line{
-  position:absolute;left:0;right:0;top:0;border-top:1px dashed var(--crit);opacity:.75;
+  position:absolute;left:0;right:0;top:0;border-top:1px dashed var(--crit);opacity:.85;
+  z-index:5;pointer-events:none;
 }
 .threshold-tag{
   position:absolute;right:0;top:-9px;background:var(--void);padding:0 7px;
   font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--crit);letter-spacing:.1em;
+  z-index:5;pointer-events:none;
 }
 .strip-axis{
   display:grid;grid-template-columns:repeat(6,1fr);gap:3px;
@@ -344,10 +343,9 @@ footer strong{color:var(--nickel);font-weight:600;letter-spacing:.12em}
           <i style="background:var(--crit)"></i>과열
         </div>
       </div>
-      <div class="strip" id="strip"></div>
-      <div class="threshold">
-        <div class="threshold-line" style="top:-56px"></div>
-        <div class="threshold-tag mono" style="top:-65px">1.00 임계선</div>
+      <div class="strip" id="strip">
+        <div class="threshold-line"></div>
+        <div class="threshold-tag mono">1.00 임계선</div>
       </div>
       <div class="strip-axis" id="stripAxis"></div>
       <p class="thermo-note">
@@ -730,8 +728,9 @@ BB.forEach(d=>{
   axis.appendChild(a);
 });
 // 임계선 위치 = 1.0/MAX 지점
-document.querySelector('.threshold-line').style.top=`-${(1/MAX*96)}px`;
-document.querySelector('.threshold-tag').style.top=`-${(1/MAX*96)+9}px`;
+const thresholdTop=(1-1/MAX)*96;
+document.querySelector('.threshold-line').style.top=`${thresholdTop}px`;
+document.querySelector('.threshold-tag').style.top=`${thresholdTop-9}px`;
 // 순차 점화
 window.addEventListener('load',()=>{
   document.querySelectorAll('.seg').forEach((s,i)=>setTimeout(()=>s.classList.add('lit'),120+i*110));
