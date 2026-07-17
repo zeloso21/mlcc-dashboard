@@ -336,7 +336,11 @@ footer strong{color:var(--nickel);font-weight:600;letter-spacing:.12em}
     <div class="brand">MLCC <span>/</span> MARKET INTELLIGENCE</div>
     <div class="stamp mono">
       <span><span class="pulse"></span>공급 타이트</span>
-      <span>2026.07.17</span>
+      <span><!--TOPDATE_START-->2026.07.17<!--TOPDATE_END--></span>
+      <button onclick="location.reload(true)" title="최신 데이터로 새로고침 (매일 자동 갱신)"
+        style="background:transparent;border:1px solid var(--rule);color:var(--nickel);border-radius:3px;
+        padding:3px 9px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;
+        cursor:pointer;">⟳ 새로고침</button>
     </div>
   </div>
 </div>
@@ -345,7 +349,7 @@ footer strong{color:var(--nickel);font-weight:600;letter-spacing:.12em}
 <div class="newsbar">
   <div class="newsbar-in">
     <div class="newsbar-title">📰 삼성전기 관련 최신기사</div>
-    <div class="news-grid">
+    <div class="news-grid"><!--NEWS_START-->
       <a class="news-item" href="https://zdnet.co.kr/view/?no=20260715101245" target="_blank" rel="noopener">
         <div class="news-src">ZDNet Korea · 2026.07.15</div>
         <div class="news-t">2분기 영업이익률 12%대, 4년 만에 두 자릿수 회복 전망 — AI 인프라향 MLCC·FC-BGA 판매 확대 &rarr;</div>
@@ -358,7 +362,7 @@ footer strong{color:var(--nickel);font-weight:600;letter-spacing:.12em}
         <div class="news-src">파이낸셜뉴스 · 2026.07.01</div>
         <div class="news-t">NH투자증권, 목표주가 300만원 상향 — "AI 가속기 스펙 상향이 MLCC 탑재량 증가 강하게 견인" &rarr;</div>
       </a>
-    </div>
+      <!--NEWS_END--></div>
   </div>
 </div>
 
@@ -428,7 +432,7 @@ footer strong{color:var(--nickel);font-weight:600;letter-spacing:.12em}
 <section id="livesnapshot">
   <div class="sec-head">
     <h2>실시간 스냅샷 — 삼성전기 (009150)</h2>
-    <span class="tag">KIS API · 2026.07.16 종가 기준</span>
+    <span class="tag"><!--ASOF_START-->KIS API · 2026.07.16 종가 기준<!--ASOF_END--></span>
   </div>
   <p class="lede">
     <b style="color:var(--crit)">7월 13일 하루 -18.62%</b> 급락을 포함, 6월 19일 종가 227만원에서
@@ -437,7 +441,7 @@ footer strong{color:var(--nickel);font-weight:600;letter-spacing:.12em}
     다만 유안타증권·키움증권은 오히려 목표주가를 220만원 → <b>280만원</b>으로 상향했고, 2분기 영업이익 컨센서스는
     전년비 <b>+88.5%</b>로 유지되고 있어 — <b>구조적 상승 스토리와 단기 밸류에이션 조정이 동시에 진행 중</b>인 국면이다.
   </p>
-  <div class="kpis" style="margin:22px 0">
+  <div class="kpis" style="margin:22px 0"><!--LIVEKPI_START-->
     <div class="kpi" style="--accent:var(--crit)">
       <div class="kpi-l">현재가 (7/16 종가)</div>
       <div class="kpi-v">127.7<small>만원</small></div>
@@ -458,10 +462,10 @@ footer strong{color:var(--nickel);font-weight:600;letter-spacing:.12em}
       <div class="kpi-v" style="font-size:20px">241.7 / 13.3<small>만원</small></div>
       <div class="kpi-d">최고 2026.06.19 · 최저 2025.07.23</div>
     </div>
-  </div>
+    <!--LIVEKPI_END--></div>
   <div class="card">
     <div class="card-head">
-      <div><div class="card-title">일별 종가 추이 (2026.06.05 ~ 07.16)</div><div class="card-sub">단위: 원 · KIS Open API</div></div>
+      <div><div class="card-title"><!--DATERANGE_START-->일별 종가 추이 (2026.06.05 ~ 07.16)<!--DATERANGE_END--></div><div class="card-sub">단위: 원 · KIS Open API</div></div>
     </div>
     <div class="canvas-box"><canvas id="cSemcoPrice"></canvas></div>
   </div>
@@ -906,6 +910,7 @@ new Chart(document.getElementById('cPer'),{
 });
 
 /* 6. 삼성전기 실시간 주가 추이 */
+/*SEMCO_PRICE_START*/
 const SEMCO_PRICE=[
   ['06.05',1757000],['06.08',1664000],['06.09',1970000],['06.10',1805000],['06.11',1805000],
   ['06.12',1714000],['06.15',1999000],['06.16',2048000],['06.17',2032000],['06.18',2200000],
@@ -914,6 +919,7 @@ const SEMCO_PRICE=[
   ['07.03',1989000],['07.06',1828000],['07.07',1648000],['07.08',1479000],['07.09',1493000],
   ['07.10',1584000],['07.13',1289000],['07.14',1260000],['07.15',1413000],['07.16',1277000]
 ];
+/*SEMCO_PRICE_END*/
 const peakIdx=SEMCO_PRICE.findIndex(d=>d[0]==='06.19');
 const crashIdx=SEMCO_PRICE.findIndex(d=>d[0]==='07.13');
 new Chart(document.getElementById('cSemcoPrice'),{
