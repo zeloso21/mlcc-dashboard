@@ -46,6 +46,25 @@ body{
 .mono{font-family:'IBM Plex Mono',monospace}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px}
 
+/* ---------- 최신기사 ---------- */
+.newsbar{background:var(--void);border-bottom:1px solid var(--rule);padding:16px 0}
+.newsbar-in{max-width:1180px;margin:0 auto;padding:0 20px}
+.newsbar-title{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--nickel);margin-bottom:12px;
+}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.news-item{
+  display:block;background:var(--strata);border:1px solid var(--rule);border-radius:var(--r);
+  padding:12px 14px;text-decoration:none;transition:border-color .15s,transform .15s;
+}
+.news-item:hover{border-color:var(--nickel-dim);transform:translateY(-1px)}
+.news-src{
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.06em;
+  color:var(--hot);margin-bottom:6px;
+}
+.news-t{font-size:12.5px;color:var(--ceramic);line-height:1.55;font-weight:400}
+
 /* ---------- 헤더 ---------- */
 .topbar{
   position:sticky;top:0;z-index:50;
@@ -318,6 +337,27 @@ footer strong{color:var(--nickel);font-weight:600;letter-spacing:.12em}
     <div class="stamp mono">
       <span><span class="pulse"></span>공급 타이트</span>
       <span>2026.07.17</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 최신기사 ============ -->
+<div class="newsbar">
+  <div class="newsbar-in">
+    <div class="newsbar-title">📰 삼성전기 관련 최신기사</div>
+    <div class="news-grid">
+      <a class="news-item" href="https://zdnet.co.kr/view/?no=20260715101245" target="_blank" rel="noopener">
+        <div class="news-src">ZDNet Korea · 2026.07.15</div>
+        <div class="news-t">2분기 영업이익률 12%대, 4년 만에 두 자릿수 회복 전망 — AI 인프라향 MLCC·FC-BGA 판매 확대 &rarr;</div>
+      </a>
+      <a class="news-item" href="https://www.seoul.co.kr/news/economy/securities/2026/07/13/20260713500254" target="_blank" rel="noopener">
+        <div class="news-src">서울신문 · 2026.07.13</div>
+        <div class="news-t">시총 5위 삼성전기, 한달만에 -43% 조정 — AI반도체주 차익실현 속 외국인·기관 매도폭탄 &rarr;</div>
+      </a>
+      <a class="news-item" href="https://www.fnnews.com/news/202607010919382994" target="_blank" rel="noopener">
+        <div class="news-src">파이낸셜뉴스 · 2026.07.01</div>
+        <div class="news-t">NH투자증권, 목표주가 300만원 상향 — "AI 가속기 스펙 상향이 MLCC 탑재량 증가 강하게 견인" &rarr;</div>
+      </a>
     </div>
   </div>
 </div>
