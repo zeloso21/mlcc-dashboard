@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLCC 시장 인텔리전스 · 2026.07</title>
+<meta name="description" content="AI 서버 1대에 44만 개. BB비율이 1.0을 넘은 순간부터 MLCC는 다른 산업이 됐다. 2026년 7월 기준 시장조사 리포트.">
+<meta name="theme-color" content="#0A0D13">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MLCC 시장 인텔리전스 — 수주가 출하를 앞지른 순간">
+<meta property="og:description" content="삼성전기 BB비율 1.31 · 리드타임 24주 · AI 서버 44만 개. 2026년 7월 MLCC 공급 부족 사이클 분석.">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MLCC 시장 인텔리전스 · 2026.07">
+<meta name="twitter:description" content="삼성전기 BB비율 1.31 · 리드타임 24주 · AI 서버 44만 개.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+<style>
+:root{
+  --void:#0A0D13;
+  --strata:#121722;
+  --strata-2:#161C29;
+  --rule:#212938;
+  --nickel:#7A8798;
+  --nickel-dim:#4E5A66;
+  --ceramic:#ECE7DD;
+  --cool:#45C8BE;
+  --warm:#FFC145;
+  --hot:#FF5F3D;
+  --crit:#E8253F;
+  --gap:14px;
+  --r:3px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void);
+  color:var(--ceramic);
+  font-family:'IBM Plex Sans KR',sans-serif;
+  font-weight:300;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:'IBM Plex Mono',monospace}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px}
+
+/* ---------- 헤더 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,13,19,.88);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);
+}
+.topbar-in{
+  max-width:1180px;margin:0 auto;padding:11px 20px;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.brand{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--ceramic);
+}
+.brand span{color:var(--hot)}
+.stamp{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--nickel);
+  letter-spacing:.1em;display:flex;gap:16px;align-items:center;
+}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--hot);display:inline-block;margin-right:6px;
+  box-shadow:0 0 0 0 rgba(255,95,61,.7);animation:pulse 2.4s infinite}
+@keyframes pulse{
+  70%{box-shadow:0 0 0 7px rgba(255,95,61,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,95,61,0)}
+}
+
+/* ---------- 히어로 : 적층 단면 ---------- */
+.hero{
+  position:relative;overflow:hidden;
+  border-bottom:1px solid var(--rule);
+  padding:64px 0 44px;
+}
+.hero::before{ /* 유전체 적층 단면 */
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(122,135,152,.09) 0px, rgba(122,135,152,.09) 1px,
+    transparent 1px, transparent 7px);
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,#000 20%,transparent 78%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,#000 20%,transparent 78%);
+  pointer-events:none;
+}
+.hero-in{position:relative;max-width:1180px;margin:0 auto;padding:0 20px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--hot);margin-bottom:20px;
+}
+.eyebrow::before{content:"▚ ";color:var(--nickel)}
+h1{
+  font-family:'Black Han Sans',sans-serif;font-weight:400;
+  font-size:clamp(34px,6.4vw,68px);line-height:1.06;letter-spacing:-.02em;
+  margin-bottom:18px;
+}
+h1 em{font-style:normal;color:var(--hot)}
+.hero-sub{
+  max-width:640px;font-size:14.5px;color:var(--nickel);line-height:1.8;margin-bottom:40px;
+}
+.hero-sub strong{color:var(--ceramic);font-weight:600}
+
+/* ---------- 시그니처 : BB 열 스트립 ---------- */
+.thermo{margin-top:8px}
+.thermo-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:12px;flex-wrap:wrap;gap:8px;
+}
+.thermo-title{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--nickel);
+}
+.thermo-legend{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--nickel);letter-spacing:.06em}
+.thermo-legend i{display:inline-block;width:8px;height:8px;margin:0 4px 0 12px;border-radius:1px}
+
+.strip{
+  position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:3px;
+  height:96px;margin-bottom:6px;
+}
+.seg{
+  position:relative;border-radius:2px 2px 0 0;overflow:hidden;
+  background:var(--strata);cursor:default;
+  transition:transform .18s ease;
+}
+.seg:hover{transform:translateY(-3px)}
+.seg-fill{
+  position:absolute;left:0;right:0;bottom:0;
+  transform-origin:bottom;transform:scaleY(0);
+  transition:transform 1s cubic-bezier(.16,1,.3,1);
+}
+.seg-val{
+  position:absolute;top:8px;left:0;right:0;text-align:center;
+  font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;
+  opacity:0;transition:opacity .5s ease .4s;
+}
+.seg.lit .seg-fill{transform:scaleY(var(--h))}
+.seg.lit .seg-val{opacity:1}
+.seg-glow{position:absolute;inset:0;opacity:0;transition:opacity .8s ease .5s;pointer-events:none}
+.seg.lit .seg-glow{opacity:1}
+
+.threshold{
+  position:relative;height:0;margin:-40px 0 0;pointer-events:none;
+}
+.threshold-line{
+  position:absolute;left:0;right:0;top:0;border-top:1px dashed var(--crit);opacity:.75;
+}
+.threshold-tag{
+  position:absolute;right:0;top:-9px;background:var(--void);padding:0 7px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--crit);letter-spacing:.1em;
+}
+.strip-axis{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:3px;
+  border-top:1px solid var(--rule);padding-top:9px;
+}
+.strip-axis div{
+  text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--nickel);letter-spacing:.05em;line-height:1.5;
+}
+.strip-axis div b{display:block;color:var(--ceramic);font-weight:500;font-size:10px}
+.thermo-note{
+  margin-top:18px;padding-left:14px;border-left:2px solid var(--hot);
+  font-size:13px;color:var(--nickel);line-height:1.75;max-width:720px;
+}
+.thermo-note b{color:var(--ceramic);font-weight:600}
+
+/* ---------- KPI ---------- */
+.kpis{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:var(--gap);margin:44px 0;
+}
+.kpi{
+  background:var(--strata);border:1px solid var(--rule);border-radius:var(--r);
+  padding:18px 18px 16px;position:relative;overflow:hidden;
+}
+.kpi::after{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent,var(--nickel))}
+.kpi-l{
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--nickel);margin-bottom:10px;
+}
+.kpi-v{
+  font-family:'IBM Plex Mono',monospace;font-size:29px;font-weight:600;
+  line-height:1;color:var(--accent,var(--ceramic));letter-spacing:-.02em;
+}
+.kpi-v small{font-size:14px;font-weight:400;color:var(--nickel);margin-left:3px}
+.kpi-d{font-size:11.5px;color:var(--nickel);margin-top:9px;line-height:1.55}
+
+/* ---------- 섹션 ---------- */
+section{margin-top:64px;scroll-margin-top:60px}
+.sec-head{
+  display:flex;align-items:baseline;gap:14px;
+  border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:22px;
+}
+.sec-head h2{
+  font-family:'IBM Plex Sans KR',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;
+}
+.sec-head .tag{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--nickel);
+  letter-spacing:.14em;text-transform:uppercase;margin-left:auto;
+}
+.lede{font-size:13.5px;color:var(--nickel);line-height:1.8;max-width:760px;margin-bottom:22px}
+.lede b{color:var(--ceramic);font-weight:600}
+
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:var(--gap)}
+.card{
+  background:var(--strata);border:1px solid var(--rule);border-radius:var(--r);padding:20px;
+}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.card-title{font-size:13.5px;font-weight:600}
+.card-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--nickel);letter-spacing:.08em}
+.canvas-box{position:relative;height:270px}
+
+/* ---------- 컨트롤 ---------- */
+.ctrl{display:flex;gap:0;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden}
+.ctrl button{
+  background:transparent;border:0;color:var(--nickel);cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;
+  padding:6px 11px;text-transform:uppercase;transition:all .15s;
+}
+.ctrl button+button{border-left:1px solid var(--rule)}
+.ctrl button:hover{color:var(--ceramic);background:var(--strata-2)}
+.ctrl button.on{background:var(--hot);color:var(--void);font-weight:600}
+.ctrl button:focus-visible{outline:2px solid var(--cool);outline-offset:-2px}
+select{
+  background:var(--strata-2);border:1px solid var(--rule);color:var(--ceramic);
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;padding:6px 9px;border-radius:var(--r);
+}
+select:focus-visible{outline:2px solid var(--cool)}
+
+/* ---------- 타임라인 ---------- */
+.tl{position:relative;padding-left:26px;margin-top:6px}
+.tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;
+  background:linear-gradient(to bottom,var(--cool),var(--warm) 45%,var(--hot) 78%,var(--crit))}
+.tl-item{position:relative;padding:0 0 24px}
+.tl-item::before{
+  content:"";position:absolute;left:-24px;top:7px;width:9px;height:9px;border-radius:50%;
+  background:var(--void);border:2px solid var(--dot,var(--nickel));
+}
+.tl-date{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;
+  color:var(--dot,var(--nickel));text-transform:uppercase;margin-bottom:4px;
+}
+.tl-body{font-size:13px;line-height:1.72;color:var(--ceramic);font-weight:300}
+.tl-body b{font-weight:600}
+.tl-body em{font-style:normal;color:var(--hot);font-weight:600;font-family:'IBM Plex Mono',monospace}
+
+/* ---------- 테이블 ---------- */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--rule);border-radius:var(--r);background:var(--strata)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--nickel);text-align:left;padding:12px 14px;border-bottom:1px solid var(--rule);
+  white-space:nowrap;cursor:pointer;user-select:none;transition:color .15s;
+}
+thead th:hover{color:var(--ceramic)}
+thead th.num,tbody td.num{text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:500}
+tbody td{padding:11px 14px;border-bottom:1px solid rgba(33,41,56,.55);font-weight:300}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--strata-2)}
+.sort-i{color:var(--hot);font-size:8px;margin-left:4px}
+
+/* ---------- 리스크 ---------- */
+.risks{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--gap)}
+.risk{
+  background:var(--strata);border:1px solid var(--rule);border-left:2px solid var(--lv,var(--nickel));
+  border-radius:var(--r);padding:17px 18px;
+}
+.risk-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;gap:8px}
+.risk-t{font-size:13px;font-weight:600}
+.risk-lv{
+  font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.12em;
+  padding:2px 7px;border-radius:2px;background:var(--lv);color:var(--void);font-weight:600;white-space:nowrap;
+}
+.risk-b{font-size:12px;color:var(--nickel);line-height:1.72}
+
+/* ---------- 결론 ---------- */
+.verdict{
+  border:1px solid var(--rule);border-radius:var(--r);
+  background:linear-gradient(135deg,var(--strata),rgba(255,95,61,.05));
+  padding:32px;margin-top:var(--gap);
+}
+.verdict h3{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:24px;margin-bottom:14px;line-height:1.3}
+.verdict p{font-size:13.5px;color:var(--nickel);line-height:1.85;max-width:780px}
+.verdict p+p{margin-top:12px}
+.verdict b{color:var(--ceramic);font-weight:600}
+
+footer{
+  margin-top:70px;padding-top:22px;border-top:1px solid var(--rule);
+  font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--nickel);
+  line-height:1.9;letter-spacing:.03em;
+}
+footer strong{color:var(--nickel);font-weight:600;letter-spacing:.12em}
+
+@media(max-width:720px){
+  .strip{height:76px}
+  .kpi-v{font-size:24px}
+  .canvas-box{height:240px}
+  .verdict{padding:22px}
+  .strip-axis div{font-size:8.5px}
+  .seg-val{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .seg-fill{transform:scaleY(var(--h))}
+  .seg-val,.seg-glow{opacity:1}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">MLCC <span>/</span> MARKET INTELLIGENCE</div>
+    <div class="stamp mono">
+      <span><span class="pulse"></span>공급 타이트</span>
+      <span>2026.07.17</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="hero-in">
+    <div class="eyebrow">적층세라믹커패시터 · 산업 분석</div>
+    <h1>수주가 출하를<br><em>앞지른 순간</em></h1>
+    <p class="hero-sub">
+      MLCC는 30년간 개당 1센트짜리 부품이었다. AI 서버 한 대가 <strong>44만 개</strong>를 삼키기 시작하면서
+      그 전제가 무너졌다. 아래는 이 산업의 체온계 — <strong>BB(수주/출하) 비율</strong>이다.
+      1.0을 넘으면 만드는 속도보다 주문이 빠르다는 뜻이다.
+    </p>
+
+    <div class="thermo">
+      <div class="thermo-head">
+        <div class="thermo-title">BB Ratio · Book-to-Bill</div>
+        <div class="thermo-legend">
+          <i style="background:var(--cool)"></i>공급 여유
+          <i style="background:var(--warm)"></i>균형
+          <i style="background:var(--hot)"></i>부족
+          <i style="background:var(--crit)"></i>과열
+        </div>
+      </div>
+      <div class="strip" id="strip"></div>
+      <div class="threshold">
+        <div class="threshold-line" style="top:-56px"></div>
+        <div class="threshold-tag mono" style="top:-65px">1.00 임계선</div>
+      </div>
+      <div class="strip-axis" id="stripAxis"></div>
+      <p class="thermo-note">
+        업계 평균은 3월 0.89에서 4월 0.92로 회복했고, 6월 말 <b>1.04</b>로 임계선을 넘었다.
+        상위 3사는 이미 다른 세계에 있다 — <b>삼성전기 1.31, 무라타 1.30, 타이요유덴 1.25</b>.
+        무라타의 수주잔고 비율 1.27은 <b>2018년 MLCC 대란 당시의 최고치를 넘어선 수치</b>다.
+        <span class="mono" style="color:var(--nickel);font-size:11px">— TrendForce, 2026.07</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ KPI ============ -->
+<div class="kpis">
+  <div class="kpi" style="--accent:var(--crit)">
+    <div class="kpi-l">삼성전기 BB비율</div>
+    <div class="kpi-v">1.31</div>
+    <div class="kpi-d">팬데믹 이후 최고치 · 업계평균 1.04</div>
+  </div>
+  <div class="kpi" style="--accent:var(--hot)">
+    <div class="kpi-l">하이엔드 리드타임</div>
+    <div class="kpi-v">24<small>주</small></div>
+    <div class="kpi-d">기존 8주 대비 <b style="color:var(--hot)">3배</b> 확대</div>
+  </div>
+  <div class="kpi" style="--accent:var(--warm)">
+    <div class="kpi-l">AI 서버 1대 탑재량</div>
+    <div class="kpi-v">440<small>K</small></div>
+    <div class="kpi-d">기존 서버 대비 10~15배</div>
+  </div>
+  <div class="kpi" style="--accent:var(--cool)">
+    <div class="kpi-l">삼성전기 연초 대비</div>
+    <div class="kpi-v">+411<small>%</small></div>
+    <div class="kpi-d">25만원 → 127.7만원 (6월 고점 227만원 대비 <b style="color:var(--crit)">-43.7%</b> 조정)</div>
+  </div>
+</div>
+
+<!-- ============ 실시간 스냅샷 ============ -->
+<section id="livesnapshot">
+  <div class="sec-head">
+    <h2>실시간 스냅샷 — 삼성전기 (009150)</h2>
+    <span class="tag">KIS API · 2026.07.16 종가 기준</span>
+  </div>
+  <p class="lede">
+    <b style="color:var(--crit)">7월 13일 하루 -18.62%</b> 급락을 포함, 6월 19일 종가 227만원에서
+    7월 16일 127.7만원까지 <b style="color:var(--crit)">약 43.7% 조정</b>됐다. AI 반도체주(이른바 '삼전닉스') 전반의
+    차익실현 조정이 겹쳤고, 13일에는 외국인·기관이 각각 약 10만주·11만주를 순매도하며 개인(21만주 순매수)이 물량을 받아냈다.
+    다만 유안타증권·키움증권은 오히려 목표주가를 220만원 → <b>280만원</b>으로 상향했고, 2분기 영업이익 컨센서스는
+    전년비 <b>+88.5%</b>로 유지되고 있어 — <b>구조적 상승 스토리와 단기 밸류에이션 조정이 동시에 진행 중</b>인 국면이다.
+  </p>
+  <div class="kpis" style="margin:22px 0">
+    <div class="kpi" style="--accent:var(--crit)">
+      <div class="kpi-l">현재가 (7/16 종가)</div>
+      <div class="kpi-v">127.7<small>만원</small></div>
+      <div class="kpi-d">전일比 -9.62% · 52주 최고 대비 -47.2%</div>
+    </div>
+    <div class="kpi" style="--accent:var(--hot)">
+      <div class="kpi-l">PER (TTM)</div>
+      <div class="kpi-v">140.4<small>배</small></div>
+      <div class="kpi-d">PBR 10.1배 · EPS 9,099원</div>
+    </div>
+    <div class="kpi" style="--accent:var(--warm)">
+      <div class="kpi-l">외국인 보유율</div>
+      <div class="kpi-v">39.9<small>%</small></div>
+      <div class="kpi-d">7/13 매도 폭탄에도 큰 변화 없음</div>
+    </div>
+    <div class="kpi" style="--accent:var(--cool)">
+      <div class="kpi-l">52주 최고/최저</div>
+      <div class="kpi-v" style="font-size:20px">241.7 / 13.3<small>만원</small></div>
+      <div class="kpi-d">최고 2026.06.19 · 최저 2025.07.23</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">일별 종가 추이 (2026.06.05 ~ 07.16)</div><div class="card-sub">단위: 원 · KIS Open API</div></div>
+    </div>
+    <div class="canvas-box"><canvas id="cSemcoPrice"></canvas></div>
+  </div>
+</section>
+
+<!-- ============ 수요 ============ -->
+<section id="demand">
+  <div class="sec-head">
+    <h2>수요 — 무엇이 시장을 끌고 있는가</h2>
+    <span class="tag">Demand</span>
+  </div>
+  <p class="lede">
+    핵심은 서버 출하량이 아니다. <b>랙당 GPU 탑재량 증가와 TDP(열설계전력) 상승</b>이 대당 MLCC 수요를 증폭시킨다.
+    2026년 AI 서버 출하량은 전년비 16% 증가 전망이지만, MLCC 수요 증가분은 이를 크게 상회한다.
+  </p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">응용처별 MLCC 탑재량</div>
+          <div class="card-sub">단위: 개 / 대 · 로그 스케일</div>
+        </div>
+        <div class="ctrl" role="group" aria-label="스케일 전환">
+          <button class="on" data-scale="logarithmic">LOG</button>
+          <button data-scale="linear">LINEAR</button>
+        </div>
+      </div>
+      <div class="canvas-box"><canvas id="cUnits"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">글로벌 시장 규모 전망</div>
+          <div class="card-sub">단위: 십억 USD · CAGR 기반 보간</div>
+        </div>
+        <select id="selInst" aria-label="조사기관 선택">
+          <option value="all">전체 기관 비교</option>
+          <option value="0">Mordor Intelligence</option>
+          <option value="1">Market Growth Reports</option>
+          <option value="2">Business Research Insights</option>
+          <option value="3">Research Nester</option>
+        </select>
+      </div>
+      <div class="canvas-box"><canvas id="cMarket"></canvas></div>
+    </div>
+  </div>
+
+  <p class="lede" style="margin-top:18px">
+    ⚠ <b>추정치 편차 주의.</b> 2026년 시장 규모가 기관별로 190억$~350억$까지 벌어진다.
+    ① 수동부품 전체 vs MLCC 단독 ② 유통단가 vs 출하단가 ③ 고부가 가중치 차이에서 기인한다.
+    <b>절대 규모가 아니라 성장률의 방향성</b>을 봐야 하며, 대부분 기관이 두 자릿수 CAGR에 수렴한다는 점이 공통이다.
+  </p>
+</section>
+
+<!-- ============ 공급 ============ -->
+<section id="supply">
+  <div class="sec-head">
+    <h2>공급 — 한일 복점의 구조</h2>
+    <span class="tag">Supply</span>
+  </div>
+  <p class="lede">
+    전체 MLCC에서 상위 3사가 60% 이상을 쥔다. 그런데 <b>AI 서버용 하이엔드로 좁히면 무라타와 삼성전기 둘이 85%</b>다.
+    고전압·고용량·고내열·저ESR 사양은 수율이 현저히 낮아, 캐파가 있다고 만들 수 있는 물건이 아니다.
+  </p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">시장 점유율</div>
+          <div class="card-sub" id="shareSub">전체 MLCC 시장 기준</div>
+        </div>
+        <div class="ctrl" role="group" aria-label="점유율 기준 전환">
+          <button class="on" data-share="total">전체</button>
+          <button data-share="ai">AI 서버용</button>
+        </div>
+      </div>
+      <div class="canvas-box"><canvas id="cShare"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">2026년 가격 인상 폭</div>
+          <div class="card-sub">발표·검토·실행 기준 · %</div>
+        </div>
+      </div>
+      <div class="canvas-box"><canvas id="cPrice"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 가격 사이클 ============ -->
+<section id="cycle">
+  <div class="sec-head">
+    <h2>가격 사이클 — 2026년의 온도 기록</h2>
+    <span class="tag">Price Cycle</span>
+  </div>
+  <p class="lede">
+    2018년 대란은 스마트폰 단일 수요에 일본계의 캐파 이전이 겹친 사건이었다.
+    이번은 <b>① AI 서버 ② 전장 ③ 범용 잠식</b>의 3중 구조이고, BB비율은 이미 2018년 피크를 넘었다.
+  </p>
+
+  <div class="card">
+    <div class="tl">
+      <div class="tl-item" style="--dot:var(--cool)">
+        <div class="tl-date">2026.02 — 04</div>
+        <div class="tl-body">주요 공급사 가동률 지속 상승. 일본·한국 제조사가 소비자용 라인을 고부가로 전환하며 업계 BB비율 <em>0.89 → 0.92</em></div>
+      </div>
+      <div class="tl-item" style="--dot:var(--warm)">
+        <div class="tl-date">2026.04.01</div>
+        <div class="tl-body">은·알루미늄·구리 급등으로 페라이트비드·인덕터·저항기 등 <b>수동부품 평균가 10~15% 인상</b></div>
+      </div>
+      <div class="tl-item" style="--dot:var(--warm)">
+        <div class="tl-date">2026.04</div>
+        <div class="tl-body">타이요유덴이 먼저 움직였다 — 5월부 인상 통보. 삼성전기 <em>5~10%</em> 인상 검토. 한국 업체들 저마진 주문 <b>'필터링'</b> 착수, 약 15% 인상</div>
+      </div>
+      <div class="tl-item" style="--dot:var(--hot)">
+        <div class="tl-date">2026.05</div>
+        <div class="tl-body">골드만삭스, 2026년 MLCC 가격 전망을 <b>'보합' → '0~5% 상승'</b>으로 상향. 삼성전기 주가 사상 첫 200만원 돌파(+15.04%)</div>
+      </div>
+      <div class="tl-item" style="--dot:var(--hot)">
+        <div class="tl-date">2026.06.30</div>
+        <div class="tl-body">삼성전기, 글로벌 빅테크와 <b>4,540억원</b> AI 데이터센터용 MLCC 공급계약 공시 (2027년 1년 · 전체 매출의 약 4%)</div>
+      </div>
+      <div class="tl-item" style="--dot:var(--crit)">
+        <div class="tl-date">2026.07 — 현재</div>
+        <div class="tl-body">3사 BB비율 <em>1.30 / 1.31 / 1.25</em>. 하이엔드 리드타임 <b>8주 → 24주</b>. 중국 유통 소비자용 주요등급 <b>15~25% 인상</b> 시작. 애플 공급망·자동차 전자업체가 재고 확보 시점을 1~2개월 앞당김</div>
+      </div>
+      <div class="tl-item" style="--dot:var(--crit)">
+        <div class="tl-date">2026.3Q — 4Q · 전망</div>
+        <div class="tl-body">엔비디아·구글·AMD 신규 AI 플랫폼 양산 → 캐파의 AI 집중 심화. 트렌드포스는 <b>4분기를 "본격 공급 부족 진입 여부를 가르는 분기점"</b>으로 규정</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 삼성전기 ============ -->
+<section id="semco">
+  <div class="sec-head">
+    <h2>국내 투자 시사점 — 삼성전기 (009150)</h2>
+    <span class="tag">Equity</span>
+  </div>
+  <p class="lede">
+    분기 영업이익률 두 자릿수는 <b>2022년 3분기(13.05%) 이후 약 4년 만</b>이다.
+    영업이익 1조 클럽 복귀도 2022년(1조 1,828억) 이후 4년 만이 된다.
+    헤더를 눌러 정렬할 수 있다.
+  </p>
+
+  <div class="tbl-wrap">
+    <table id="tblSemco">
+      <thead>
+        <tr>
+          <th data-k="src" data-t="s">추정 주체</th>
+          <th data-k="period" data-t="s">기간</th>
+          <th class="num" data-k="rev" data-t="n">매출 (억원)</th>
+          <th class="num" data-k="op" data-t="n">영업이익 (억원)</th>
+          <th class="num" data-k="opm" data-t="n">OPM (%)</th>
+          <th data-k="note" data-t="s">비고</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="grid-2" style="margin-top:var(--gap)">
+    <div class="card">
+      <div class="card-head"><div><div class="card-title">밸류에이션 — 선반영의 크기</div><div class="card-sub">PER 배수 · 하나증권 추정 기준</div></div></div>
+      <div class="canvas-box" style="height:220px"><canvas id="cPer"></canvas></div>
+      <p style="font-size:11.5px;color:var(--nickel);margin-top:14px;line-height:1.7">
+        목표주가는 <b style="color:var(--ceramic)">2028년 예상 EPS 4만 9,950원 × 목표 PER 60.73배</b>로 산출됐다.
+        2년 후 이익이 실제로 나와야 정당화되는 구조다.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><div class="card-title">투자자 확인 체크리스트</div><div class="card-sub">Watch List</div></div></div>
+      <div class="tl" style="padding-left:24px">
+        <div class="tl-item" style="--dot:var(--hot);padding-bottom:16px">
+          <div class="tl-date">01 · LTA</div>
+          <div class="tl-body" style="font-size:12.5px">2027년 MLCC 장기공급계약 추가 확대 여부 — 7월 4,540억 건이 시작인가 단발인가</div>
+        </div>
+        <div class="tl-item" style="--dot:var(--warm);padding-bottom:16px">
+          <div class="tl-date">02 · FCBGA</div>
+          <div class="tl-body" style="font-size:12.5px">AI 서버용 FCBGA 판가 상승 지속성 — MLCC와 함께 'AI 부품 포트폴리오' 프리미엄의 근거</div>
+        </div>
+        <div class="tl-item" style="--dot:var(--warm);padding-bottom:16px">
+          <div class="tl-date">03 · 이익률</div>
+          <div class="tl-body" style="font-size:12.5px">컴포넌트·패키지 부문 이익률 실제 달성 여부. MLCC 단독 수치보다 <b>부문 매출·믹스·재고</b>를 함께</div>
+        </div>
+        <div class="tl-item" style="--dot:var(--cool);padding-bottom:0">
+          <div class="tl-date">04 · 무라타</div>
+          <div class="tl-body" style="font-size:12.5px">무라타의 가격·증설 전략이 삼성전기의 판가·LTA·점유율 방어에 직접 영향. FY26 CAPEX +49.6%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 리스크 ============ -->
+<section id="risk">
+  <div class="sec-head">
+    <h2>리스크</h2>
+    <span class="tag">Risk</span>
+  </div>
+  <div class="risks">
+    <div class="risk" style="--lv:var(--crit)">
+      <div class="risk-h"><span class="risk-t">밸류에이션 부담 — 이미 현실화</span><span class="risk-lv mono">HIGH</span></div>
+      <p class="risk-b"><b>더 이상 가정이 아니다.</b> 6월 19일 227만원 고점 이후 7월 16일까지 <b style="color:var(--crit)">-43.7%</b> 조정됐고, 7월 13일 하루에만 -18.62%가 났다. PER 118~140배 구간에서 이익 개선 속도가 추정치를 하회하면 조정폭이 얼마나 커질 수 있는지를 이미 한 번 보여준 셈이다. 단, 증권가 목표주가는 오히려 상향(유안타·키움 280만원) — 밸류에이션 조정과 실적 기대치는 별개로 움직이고 있다.</p>
+    </div>
+    <div class="risk" style="--lv:var(--hot)">
+      <div class="risk-h"><span class="risk-t">공급자 우위 논리 붕괴</span><span class="risk-lv mono">HIGH</span></div>
+      <p class="risk-b">증설이 예상보다 빠르게 수율을 확보하거나, 고객사가 대체 공급처를 늘리면 전제가 흔들린다. 중국 업체의 중저가 → 중고가 침투 가속도 변수.</p>
+    </div>
+    <div class="risk" style="--lv:var(--crit)">
+      <div class="risk-h"><span class="risk-t">AI 반도체 테마 동조화</span><span class="risk-lv mono">HIGH</span></div>
+      <p class="risk-b">7월 조정은 삼성전기 개별 이슈가 아니라 <b>'삼전닉스'로 묶이는 AI 반도체 테마 전체의 차익실현</b>이었다. SK하이닉스 등과 동조화되어 있어, MLCC 펀더멘털과 무관하게 테마 전체의 수급 변화(외국인·기관 동시 매도)에 주가가 크게 흔들릴 수 있다. 개인 투자자가 조정 국면의 매수 주체가 되는 패턴이 반복되는 중.</p>
+    </div>
+    <div class="risk" style="--lv:var(--warm)">
+      <div class="risk-h"><span class="risk-t">사이클 산업의 본질</span><span class="risk-lv mono">MED</span></div>
+      <p class="risk-b">2018 대란 → 2019 급락, 2021 호황 → 2022~23 불황을 반복해 온 산업이다. <b>부족 국면의 증설이 다음 사이클의 과잉 씨앗</b>이 되는 구조는 변하지 않았다.</p>
+    </div>
+    <div class="risk" style="--lv:var(--warm)">
+      <div class="risk-h"><span class="risk-t">재고 조정 · 더블오더</span><span class="risk-lv mono">MED</span></div>
+      <p class="risk-b">애플 공급망과 자동차 업체가 재고 확보를 1~2개월 앞당겼다. 선행 주문이 해소되는 국면에서 체감 수요가 급랭할 수 있다.</p>
+    </div>
+    <div class="risk" style="--lv:var(--nickel)">
+      <div class="risk-h"><span class="risk-t">원가 압박</span><span class="risk-lv mono">LOW</span></div>
+      <p class="risk-b">은·구리·알루미늄, 톨루엔 등 상승. 단 이는 수요 흐름을 바꾸기보다 <b>가격 상승폭을 키우는 요인</b>으로 작용할 가능성이 크다는 게 다수 시각.</p>
+    </div>
+    <div class="risk" style="--lv:var(--nickel)">
+      <div class="risk-h"><span class="risk-t">매크로 하방</span><span class="risk-lv mono">LOW</span></div>
+      <p class="risk-b">미국-이란 갈등발 유가·천연가스 상승, 주요국 CPI 상승이 소비자용 수요 전반을 압박. 지정학·통화정책 변화가 잔존 리스크.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 결론 ============ -->
+<section id="verdict">
+  <div class="sec-head">
+    <h2>종합</h2>
+    <span class="tag">Outlook</span>
+  </div>
+  <div class="verdict">
+    <h3>산업은 올라가고 있다.<br>주식은 이미 올라갔다.</h3>
+    <p>
+      <b>단기(2H26)</b> — 공급 타이트에서 가격 인상 국면으로의 전환이 유력하다. BB비율, 리드타임, 중국 유통가가 이미 같은 방향을 가리킨다.
+      4분기가 '완만한 인상'과 '본격 대란'을 가르는 분기점이다.
+    </p>
+    <p>
+      <b>중기(2027~28)</b> — AI 서버와 전장의 2축 수요는 구조적이다. 무라타 CAPEX +49.6%, 삼성전기 2.95조 등 증설이 본격화되나
+      캐파 확보에는 리드타임이 있고 <b>AEC-Q200 등 인증 사이클이 길어 2027년까지는 공급 우위가 유지될 가능성</b>이 높다.
+    </p>
+    <p>
+      <b>장기</b> — 상위사가 고부가로 이동하며 생기는 중저가 공백을 중국 업체가 메우는 <b>시장 이원화</b>가 고착될 전망이다.
+      한일 업체의 관건은 Class 1 및 AI·전장 하이엔드에서의 기술 격차 유지다.
+    </p>
+    <p style="margin-top:20px;padding-top:18px;border-top:1px solid var(--rule)">
+      <b>결론</b> — 산업 사이클은 명확히 상승 국면이나, 주식은 그 논리를 상당 부분 반영했다.
+      신규 진입보다는 ① 분기 실적의 컨센서스 부합 여부 ② LTA 추가 체결 ③ 무라타 가이던스를 확인하며 대응하는 편이 합리적이다.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <strong>SOURCES</strong> · TrendForce (2026.04 / 2026.07) · Mordor Intelligence · Market Growth Reports · Business Research Insights · Research Nester · Goldman Sachs · 하나증권 · KB증권 · 유진투자증권 · 대신증권 · 유안타증권 · 키움증권 · FnGuide · 삼성전기 IR 및 DART 공시(2026.06.30) · 무라타 FY2026 가이던스 · <b>한국투자증권 Open API (실시간 시세, 2026.07.16 종가)</b> · 서울신문(2026.07.13) · YTN · Investing.com · 아시아경제, ZDNet Korea, 비즈니스포스트, 글로벌이코노믹, 파이낸셜뉴스, 데일리비즈온, PRESS9<br><br>
+  <strong>DISCLAIMER</strong> · 공개 자료를 취합·분석한 참고용이며 투자 판단과 책임은 투자자 본인에게 있습니다. 시장 규모 추정치는 조사기관별 방법론 차이로 편차가 크므로 절대값보다 추세 해석에 활용하십시오. 기존 서버 탑재량은 'AI 서버 대비 10~15배' 진술로부터 역산한 추정치입니다. 실시간 시세는 조회 시점(2026.07.16 종가) 기준 스냅샷이며 이후 변동될 수 있습니다.<br><br>
+  <strong>BUILT</strong> · 2026.07.17 (2026.07.17 실시간 데이터로 갱신) · 자체 완결형 HTML · 오프라인 동작
+</footer>
+
+</div>
+
+<script>
+const C={void:'#0A0D13',nickel:'#7A8798',ceramic:'#ECE7DD',rule:'#212938',
+         cool:'#45C8BE',warm:'#FFC145',hot:'#FF5F3D',crit:'#E8253F'};
+
+const heat=v=>v<0.9?C.cool:v<1.0?C.warm:v<1.2?C.hot:C.crit;
+
+/* ---------- 시그니처: BB 열 스트립 ---------- */
+const BB=[
+  {t:'2026.03',l:'업계 평균',v:0.89},
+  {t:'2026.04',l:'업계 평균',v:0.92},
+  {t:'2026.06',l:'업계 평균',v:1.04},
+  {t:'2026.06',l:'타이요유덴',v:1.25},
+  {t:'2026.06',l:'무라타',v:1.30},
+  {t:'2026.06',l:'삼성전기',v:1.31}
+];
+const MAX=1.45;
+const strip=document.getElementById('strip'),axis=document.getElementById('stripAxis');
+BB.forEach(d=>{
+  const c=heat(d.v);
+  const seg=document.createElement('div');
+  seg.className='seg';
+  seg.style.setProperty('--h',(d.v/MAX).toFixed(3));
+  seg.innerHTML=`
+    <div class="seg-fill" style="height:100%;background:linear-gradient(to top,${c}44,${c})"></div>
+    <div class="seg-glow" style="box-shadow:inset 0 -14px 26px -6px ${c}"></div>
+    <div class="seg-val" style="color:${d.v>=1?C.void:C.ceramic}">${d.v.toFixed(2)}</div>`;
+  seg.title=`${d.l} · ${d.t} · BB ${d.v.toFixed(2)}`;
+  strip.appendChild(seg);
+  const a=document.createElement('div');
+  a.innerHTML=`<b>${d.l}</b>${d.t}`;
+  axis.appendChild(a);
+});
+// 임계선 위치 = 1.0/MAX 지점
+document.querySelector('.threshold-line').style.top=`-${(1/MAX*96)}px`;
+document.querySelector('.threshold-tag').style.top=`-${(1/MAX*96)+9}px`;
+// 순차 점화
+window.addEventListener('load',()=>{
+  document.querySelectorAll('.seg').forEach((s,i)=>setTimeout(()=>s.classList.add('lit'),120+i*110));
+});
+
+/* ---------- Chart.js 공통 ---------- */
+Chart.defaults.font.family="'IBM Plex Mono','IBM Plex Sans KR',monospace";
+Chart.defaults.font.size=10;
+Chart.defaults.color=C.nickel;
+const gridOpt={color:'rgba(33,41,56,.65)',drawTicks:false};
+const tip={
+  backgroundColor:'#161C29',borderColor:C.rule,borderWidth:1,
+  titleColor:C.ceramic,bodyColor:C.nickel,padding:10,cornerRadius:3,displayColors:true,boxWidth:8,boxHeight:8
+};
+
+/* 1. 탑재량 */
+const UNITS={
+  labels:['스마트폰','내연기관차','전기차','일반 서버(추정)','AI 서버'],
+  data:[1000,3500,20000,35000,440000],
+  colors:[C.nickel,C.nickel,C.cool,C.warm,C.hot]
+};
+const cUnits=new Chart(document.getElementById('cUnits'),{
+  type:'bar',
+  data:{labels:UNITS.labels,datasets:[{data:UNITS.data,backgroundColor:UNITS.colors,borderRadius:2,barPercentage:.6}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>` ${c.parsed.y.toLocaleString()}개`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:C.nickel}},
+      y:{type:'logarithmic',grid:gridOpt,border:{display:false},
+         ticks:{color:C.nickel,callback:v=>[1000,10000,100000].includes(v)?v.toLocaleString():''}}
+    }}
+});
+document.querySelectorAll('[data-scale]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('[data-scale]').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  cUnits.options.scales.y.type=b.dataset.scale;
+  cUnits.options.scales.y.ticks.callback=b.dataset.scale==='linear'
+    ? v=>v.toLocaleString()
+    : v=>[1000,10000,100000].includes(v)?v.toLocaleString():'';
+  cUnits.update();
+});
+
+/* 2. 시장 규모 */
+const YEARS=[2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036];
+const INST=[
+  {n:'Mordor Intelligence',base:272.6,cagr:.1503,c:C.hot,note:'2031년 641.9억$'},
+  {n:'Market Growth Reports',base:265.7,cagr:.109,c:C.warm,note:'2035년 746.0억$'},
+  {n:'Business Research Insights',base:348.9,cagr:.1352,c:C.cool,note:'2034년 1,092억$'},
+  {n:'Research Nester',base:175.2,cagr:.0615,c:C.nickel,note:'2036년 345.8억$'}
+];
+const proj=i=>YEARS.map(y=>+(i.base*Math.pow(1+i.cagr,y-2025)/10).toFixed(2));
+const mkDs=()=>INST.map(i=>({
+  label:i.n,data:proj(i),borderColor:i.c,backgroundColor:i.c+'18',
+  borderWidth:1.8,tension:.35,pointRadius:0,pointHoverRadius:5,fill:false
+}));
+const cMarket=new Chart(document.getElementById('cMarket'),{
+  type:'line',
+  data:{labels:YEARS,datasets:mkDs()},
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{boxWidth:8,boxHeight:8,padding:10,font:{size:9}}},
+      tooltip:{...tip,callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}B$`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:C.nickel,maxRotation:0,autoSkipPadding:14}},
+      y:{grid:gridOpt,border:{display:false},ticks:{color:C.nickel,callback:v=>v+'B'}}
+    }}
+});
+document.getElementById('selInst').onchange=e=>{
+  const v=e.target.value;
+  cMarket.data.datasets=v==='all'?mkDs():[mkDs()[+v]];
+  cMarket.options.plugins.legend.display=(v==='all');
+  cMarket.update();
+};
+
+/* 3. 점유율 */
+const SHARE={
+  total:{sub:'전체 MLCC 시장 기준',
+    l:['무라타','삼성전기','타이요유덴','TDK','야게오','교세라','기타'],
+    d:[44,22,13,7,5,5,4],
+    c:[C.hot,C.warm,C.cool,'#5B6B80',C.nickel,'#5B6B80','#333C4D']},
+  ai:{sub:'AI 서버용 하이엔드 기준 · 사실상 복점',
+    l:['무라타','삼성전기','기타'],
+    d:[45,40,15],
+    c:[C.hot,C.warm,'#333C4D']}
+};
+const cShare=new Chart(document.getElementById('cShare'),{
+  type:'doughnut',
+  data:{labels:SHARE.total.l,datasets:[{data:SHARE.total.d,backgroundColor:SHARE.total.c,borderColor:'#121722',borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
+    plugins:{legend:{position:'right',labels:{boxWidth:8,boxHeight:8,padding:9,font:{size:10}}},
+      tooltip:{...tip,callbacks:{label:c=>` ${c.label}: ${c.parsed}%`}}}}
+});
+document.querySelectorAll('[data-share]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('[data-share]').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  const s=SHARE[b.dataset.share];
+  cShare.data.labels=s.l;
+  cShare.data.datasets[0].data=s.d;
+  cShare.data.datasets[0].backgroundColor=s.c;
+  cShare.update();
+  document.getElementById('shareSub').textContent=s.sub;
+});
+
+/* 4. 가격 인상 (floating bar) */
+const cPrice=new Chart(document.getElementById('cPrice'),{
+  type:'bar',
+  data:{
+    labels:['中 유통\n소비자용','타이요유덴\n중저용량','삼성전기\n실행','수동부품\n전반','무라타\nASP 가이던스','삼성전기\n검토','GS 시장전망'],
+    datasets:[{
+      data:[[15,25],[6,13],[15,15.6],[10,15],[5,10],[5,10],[0,5]],
+      backgroundColor:[C.crit,C.hot,C.hot,C.warm,C.warm,C.warm,C.cool],
+      borderRadius:2,barPercentage:.62
+    }]},
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    plugins:{legend:{display:false},
+      tooltip:{...tip,callbacks:{label:c=>{const[a,b]=c.raw;return a===b||b-a<1?` ${a}%`:` ${a}~${b}%`}}}},
+    scales:{
+      x:{grid:gridOpt,border:{display:false},ticks:{color:C.nickel,callback:v=>v+'%'},min:0,max:26},
+      y:{grid:{display:false},ticks:{color:C.nickel,font:{size:9},autoSkip:false}}
+    }}
+});
+
+/* 5. PER */
+new Chart(document.getElementById('cPer'),{
+  type:'bar',
+  data:{labels:['2026E','2027E','2028E'],
+    datasets:[{data:[118.66,62.22,43.72],backgroundColor:[C.crit,C.hot,C.warm],borderRadius:2,barPercentage:.5}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>` PER ${c.parsed.y}배`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:C.nickel,font:{size:11}}},
+      y:{grid:gridOpt,border:{display:false},ticks:{color:C.nickel,callback:v=>v+'배'}}
+    }}
+});
+
+/* 6. 삼성전기 실시간 주가 추이 */
+const SEMCO_PRICE=[
+  ['06.05',1757000],['06.08',1664000],['06.09',1970000],['06.10',1805000],['06.11',1805000],
+  ['06.12',1714000],['06.15',1999000],['06.16',2048000],['06.17',2032000],['06.18',2200000],
+  ['06.19',2270000],['06.22',2228000],['06.23',1990000],['06.24',1964000],['06.25',1997000],
+  ['06.26',1993000],['06.29',2038000],['06.30',2184000],['07.01',2205000],['07.02',1926000],
+  ['07.03',1989000],['07.06',1828000],['07.07',1648000],['07.08',1479000],['07.09',1493000],
+  ['07.10',1584000],['07.13',1289000],['07.14',1260000],['07.15',1413000],['07.16',1277000]
+];
+const peakIdx=SEMCO_PRICE.findIndex(d=>d[0]==='06.19');
+const crashIdx=SEMCO_PRICE.findIndex(d=>d[0]==='07.13');
+new Chart(document.getElementById('cSemcoPrice'),{
+  type:'line',
+  data:{
+    labels:SEMCO_PRICE.map(d=>d[0]),
+    datasets:[{
+      data:SEMCO_PRICE.map(d=>d[1]),
+      borderColor:C.hot,backgroundColor:C.hot+'18',borderWidth:1.8,
+      tension:.25,pointRadius:SEMCO_PRICE.map((_,i)=>i===peakIdx||i===crashIdx?5:0),
+      pointBackgroundColor:SEMCO_PRICE.map((_,i)=>i===peakIdx?C.crit:i===crashIdx?C.crit:C.hot),
+      pointHoverRadius:6,fill:true
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},
+      tooltip:{...tip,callbacks:{label:c=>` ${(c.parsed.y/10000).toFixed(1)}만원`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:C.nickel,maxRotation:0,autoSkipPadding:16}},
+      y:{grid:gridOpt,border:{display:false},ticks:{color:C.nickel,callback:v=>(v/10000).toFixed(0)+'만'}}
+    }}
+});
+
+/* ---------- 정렬 테이블 ---------- */
+const SEMCO=[
+  {src:'컨센서스',period:'2Q26',rev:33037,op:4015,opm:12.2,note:'분기 OPM 두 자릿수 · 4년 만'},
+  {src:'유진투자증권',period:'2Q26',rev:33891,op:4085,opm:12.1,note:'컨센 상회 추정'},
+  {src:'하나증권',period:'2026 연간',rev:129988,op:12436,opm:9.6,note:'MLCC 가동률 90% 상회 전망'},
+  {src:'대신증권',period:'2026 연간',rev:null,op:11400,opm:null,note:'+26.1% YoY'},
+  {src:'FnGuide 컨센',period:'2026 연간',rev:null,op:13097,opm:null,note:'+43.4% YoY · 1조 클럽 복귀'},
+  {src:'실적 (확정)',period:'2022 연간',rev:null,op:11828,opm:null,note:'직전 1조 클럽'}
+];
+const tb=document.querySelector('#tblSemco tbody');
+let sk='op',sd=-1;
+const fmt=v=>v==null?'<span style="color:#4E5A66">—</span>':v.toLocaleString();
+function draw(){
+  tb.innerHTML=SEMCO.slice().sort((a,b)=>{
+    const x=a[sk],y=b[sk];
+    if(x==null)return 1; if(y==null)return -1;
+    return typeof x==='number'?(x-y)*sd:String(x).localeCompare(String(y),'ko')*sd;
+  }).map(r=>`<tr>
+    <td style="font-weight:400">${r.src}</td>
+    <td class="mono" style="color:#7A8798;font-size:11px">${r.period}</td>
+    <td class="num">${fmt(r.rev)}</td>
+    <td class="num" style="color:${C.warm}">${fmt(r.op)}</td>
+    <td class="num">${r.opm==null?'<span style="color:#4E5A66">—</span>':r.opm.toFixed(1)}</td>
+    <td style="color:#7A8798;font-size:11.5px">${r.note}</td>
+  </tr>`).join('');
+  document.querySelectorAll('#tblSemco th').forEach(th=>{
+    th.innerHTML=th.innerHTML.replace(/\s*<span class="sort-i">.*<\/span>/,'');
+    if(th.dataset.k===sk)th.innerHTML+=`<span class="sort-i">${sd===1?'▲':'▼'}</span>`;
+  });
+}
+document.querySelectorAll('#tblSemco th').forEach(th=>{
+  th.onclick=()=>{const k=th.dataset.k; sd=(k===sk)?-sd:-1; sk=k; draw();};
+});
+draw();
+</script>
+</body>
+</html>
